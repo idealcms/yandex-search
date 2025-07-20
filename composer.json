@@ -1,13 +1,17 @@
 {
     "name": "idealcms/yandex-search",
     "description": "Поиск по сайту с помощью Яндекса",
-    "keywords":["yandex", "yandex.xml", "yandex xml", "sdk"],
+    "keywords":["yandex", "yandex cloud", "yandex.xml", "yandex xml", "sdk"],
     "type":"library",
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*",
+        "psr/log": "*",
+        "symfony/http-client": "5.4.49"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~3.0"

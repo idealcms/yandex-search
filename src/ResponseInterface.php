@@ -9,10 +9,12 @@ interface ResponseInterface
     /**
      * Инициализация объекта ответа данными, полученными от Яндекса
      */
-    public function setContent(string $content): self;
+    public function setXml(\SimpleXMLElement $xml): self;
 
     /**
      * Получение списка найденных документов
+     *
+     * @return array<Document>
      */
     public function getDocuments(): array;
 
