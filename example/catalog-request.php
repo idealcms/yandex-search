@@ -1,30 +1,32 @@
 <?php
 require_once '../vendor/autoload.php';
 
-use Ideal\YandexSearch\CatalogResponse;
-use Ideal\YandexSearch\CatalogRequest;
+use Ideal\YandexSearch\WebSearchRequest;
 use Ideal\YandexSearch\Client;
 
 try {
-    $request = (new CatalogRequest('your-api-key', 'your-search-id'))
-        ->setText('название товара на сайте')
+    $request = (new WebSearchRequest('поисковый запрос'))
         ->setPerPage(10)
-        ->setPage(0);
+        ->setPage(0)
+    ;
 
-    /** @var CatalogResponse $response */
-    $response = Client::send($request);
+    $client = new Client(
+        'https://searchapi.api.cloud.yandex.net',
+        'your-api-key',
+        $logger,
+    );
+    $response = $client->send($request);
 
     foreach ($response->getDocuments() as $result) {
         echo $result->url;
         echo $result->domain;
         echo $result->title;
-        echo $result->headline;
-        echo sizeof($result->passages);
+        echo $result->passage;
     }
 } catch (\RuntimeException $e) {
     echo "\nВозникло исключение во время выполнения запроса:\n";
     echo $e->getMessage() . "\n";
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     echo "\nВозникло неизвестное исключение:\n";
     echo $e->getMessage() . "\n";
 }
