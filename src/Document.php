@@ -12,17 +12,17 @@ class Document
 
     public string $title;
 
-    public ?string $passage = null;
+    public array $passages;
 
     public function __construct(
         string $domain,
         string $url,
         string $title,
-        ?string $passage
+        array $passages
     ) {
         $this->domain = $domain;
         $this->url = $url;
         $this->title = $title;
-        $this->passage = $passage;
+        $this->passages = $passages;
     }
 }

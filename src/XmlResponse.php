@@ -6,22 +6,29 @@ namespace Ideal\YandexSearch;
 
 class XmlResponse implements ResponseInterface
 {
-    /** @var array<Document>  */
+    /** @var array<Document> */
     protected array $items = [];
 
-    protected int $docsTotal;
+    protected int $docsTotal = 0;
 
     /** @inheritDoc */
     public function setXml(\SimpleXMLElement $xml): self
     {
+        if (empty($xml->response->results->grouping)) {
+            return $this;
+        }
+
         foreach ($xml->response->results->grouping->group as $group) {
             $url = (string) $group->doc->url;
-            $passage = $group->doc->passages->passage;
+            $passages = [];
+            foreach ($group->doc->passages as $passage) {
+                $passages[] = strip_tags((string) $passage->asXML(), ['hlword']);
+            }
             $this->items[$url] = new Document(
-                strip_tags($group->doc->domain->asXML()),
+                strip_tags((string) $group->doc->domain->asXML()),
                 $url,
-                strip_tags($group->doc->title->asXML(), ['hlword']),
-                $passage === null ? null : strip_tags($passage->asXML(), ['hlword']),
+                strip_tags((string) $group->doc->title->asXML(), ['hlword']),
+                $passages,
             );
         }
 
