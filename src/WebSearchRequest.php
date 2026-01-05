@@ -87,6 +87,6 @@ class WebSearchRequest implements RequestInterface
                 'groupMode' => 'GROUP_MODE_FLAT',
                 'groupsOnPage' => $this->perPage,
             ],
-        ], JSON_THROW_ON_ERROR);
+        ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_IGNORE);
     }
 }
